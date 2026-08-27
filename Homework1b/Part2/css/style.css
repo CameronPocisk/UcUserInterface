@@ -4,8 +4,10 @@
 .date {
     color: 	#b5e352;
 }
-.imaageOfDay {
-
+.imageOfDay {
+    height: 70px;
+    width: 70px;
+    padding-left: 20px;
 }
 .quote {
     color: 	#e05c56;
@@ -14,6 +16,12 @@
     color: 	#00a2b3;
 }
 .hoursOfSleep {
+}
+.inputs {
+    color: #00a2b3;
+    display: flex;
+    flex-direction: column;
+    place-items: center;
 }
 .checkboxes {
     color: #fb9b00;
@@ -31,4 +39,9 @@
     overflow-y: auto;
     background-color: #f0f0f0; 
     font-family: Georgia, Times, "Times New Roman", serif;
+}
+.insights{
+    border-style: double;
+    border-radius: 10px;
+    padding: 10px;
 }

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>My UI</title>
+    <title>My UI Part 2</title>
     
     <!-- The following line references an external css file -->
     <!-- It defines style rules for your page, and elements in your page -->
@@ -11,12 +11,13 @@
 </head>
 <body class="instance">
     <!-- The name of the user -->
-    <h1 class="name">Cameron Pocisk</h1>
+    <div style="display: flex; flex-direction: row;"> 
+        <h1 class="name">Cameron Pocisk</h1>
+        <!-- An image of the day that the user has already uploaded  -->
+        <img class="imageOfDay" src="Assets/MeAndMargo.jpg"/>
+    </div>
     <!-- A date and time (can be static) -->
-    <time class="date"><b>August 26th 2026</b></time> 
-    <!-- An image of the day that the user has already uploaded  -->
-    <br>
-    <img class="imaageOfDay" src="Assets/MeAndMargo.jpg"/>
+    <h3 class="date"><b>August 26th 2026</b></h3> 
     <!-- A paragraph of text containing an inspirational quote -->
     <p class="quote">
         <br>Tonight, I submit to you that there's some family 
@@ -27,13 +28,15 @@
         <br>and watch your tail play. 
         <br>You owe them something!
     </p>
-    <!-- A text box for the user to enter a note  -->
-    Enter a note: <input class="note" type="text"></input>
-    <!-- A place to enter in how many hours of sleep they got -->
+    <div class="inputs">
+        <!-- A text box for the user to enter a note  -->
+        Enter a note: <input class="note" type="text"></input>
+        <!-- A place to enter in how many hours of sleep they got -->
+        <br></br>
+        How much did you sleep: <input class="hoursOfSleep" type="number"></input>
+    </div>
     <br>
-    How much did you sleep: <input class="hoursOfSleep" type="number"></input>
     <!-- A set of checkboxes for them to mark how they felt today (energetic, anxious, motivated... choose your own labels) -->
-    <br>
     <div class="checkboxes">
         Wake up<input type="checkbox" id="wakeUp">
         Show up<input type="checkbox" id="showUp">
@@ -45,8 +48,23 @@
     <button class="submitEntryButton">Submit Entry</button>
 
     <br>
-    <div class="insights">
+    <div class="insights" style="background-color: #f8f8f8; color: #676767">
+        <h2>Insights</h2>
+        <p id="avgSleep" style="color: #f7da21"></p>
+        <p id="timesWokeUp" style="color: 	#b5e352"></p>
+        <p id="timesShownUp" style="color: #e05c56"></p>
+        <p id="timesRepeated" style="color: 	#00a2b3"></p>
+        <p id="timesHappy" style="color: 	#fb9b00"></p>
     </div>
+
+    <audio controls loop>
+        <source src="Assets/bonk-sound.mp3" type="audio/mpeg">
+        Audio not supported.
+    </audio>
+    <audio controls loop>
+        <source src="Assets/bruh-sound-effect-2.mp3" type="audio/mpeg">
+        Audio not supported.
+    </audio>
 
     <!-- Load external JS files -->
     <!-- This is where you will do most of the 'work' for your applications -->
