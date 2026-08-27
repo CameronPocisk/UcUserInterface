@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My UI</title>
+    
+    <!-- The following line references an external css file -->
+    <!-- It defines style rules for your page, and elements in your page -->
+    <link href="css/style.css" rel="stylesheet">
+    
+</head>
+<body class="instance">
+    <!-- The name of the user -->
+    <h1 class="name">Cameron Pocisk</h1>
+    <!-- A date and time (can be static) -->
+    <time class="date"><b>August 26th 2026</b></time> 
+    <!-- An image of the day that the user has already uploaded  -->
+    <br>
+    <img class="imaageOfDay" src="Assets/MeAndMargo.jpg"/>
+    <!-- A paragraph of text containing an inspirational quote -->
+    <p class="quote">
+        <br>Tonight, I submit to you that there's some family 
+        <br>that drove from I-don't-know-where, 
+        <br>parked 5 miles away from this stadium, 
+        <br>saved all freaking year long just to buy a ticket
+        <br>to climb to the top of that stadium 
+        <br>and watch your tail play. 
+        <br>You owe them something!
+    </p>
+    <!-- A text box for the user to enter a note  -->
+    Enter a note: <input class="note" type="text"></input>
+    <!-- A place to enter in how many hours of sleep they got -->
+    <br>
+    How much did you sleep: <input class="hoursOfSleep" type="number"></input>
+    <!-- A set of checkboxes for them to mark how they felt today (energetic, anxious, motivated... choose your own labels) -->
+    <br>
+    <div class="checkboxes">
+        Wake up<input type="checkbox" id="wakeUp">
+        Show up<input type="checkbox" id="showUp">
+        Repeat<input type="checkbox"  id="repeat">
+    </div>
+    <!-- Anything else you want to try.... Interestig Audio tag -->
+
+    <br>
+    <button class="submitEntryButton">Submit Entry</button>
+
+    <br>
+    <div class="insights">
+    </div>
+
+    <!-- Load external JS files -->
+    <!-- This is where you will do most of the 'work' for your applications -->
+    <script src="js/main.js"></script>
+</body>
+</html>
