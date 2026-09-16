@@ -1,5 +1,3 @@
-# Smart Object Assignment
-
 
 # Interview
 Interviewee Options (Aubrey, Jaxon & Xekti, Olivia, Dan, idk probably is 1 more person out there)
