@@ -1,96 +1,68 @@
 <script>
-  import svelteLogo from './assets/svelte.svg'
-  import viteLogo from './assets/vite.svg'
-  import heroImg from './assets/hero.png'
-  import Counter from './lib/Counter.svelte'
-
   // Steup stuff from the component file i made
-  import ColorPicker from './ColorPicker.svelte';
+  import ColorPicker from './lib/ColorPicker.svelte';
+  import ScrollingGraphPaper from './lib/ScrollingGraphPaper.svelte'
 
+  let chosenColor = '#ffffff';
+  function handleSelect(event) {
+    chosenColor = event.detail.css; // { r, g, b, css }
+    console.log('Color selected:', event.detail);
+  }
+
+  // As far as I can tell, this should rep the whole website script functionality as one app. I am going to make that class here
+  class PenPen{
+    
+  }
 
 </script>
 
-<section id="center">
-  <div class="hero">
-    <img src={heroImg} class="base" width="170" height="179" alt="" />
-    <img src={svelteLogo} class="framework" alt="Svelte logo" />
-    <img src={viteLogo} class="vite" alt="Vite logo" />
-  </div>
-  <div>
-    <h1>Get started</h1>
+<main>
+  <div class="app">
+    <!-- <h1>PenPen</h1> -->
+    <div class="canvas-area">
+      <ScrollingGraphPaper/>
+    </div>
     <!-- My Div (For setting the pen color remotely) -->
-    <ColorPicker on:select={handleSelect} />
-    <p>Edit <code>src/App.svelte</code> and save to test <code>HMR</code></p>
+    <!-- <ColorPicker on:select={handleSelect} /> -->
   </div>
-  <Counter />
-</section>
+</main>
 
-<div class="ticks"></div>
+<style>
+:global(html, body) {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
 
-<section id="next-steps">
-  <div id="docs">
-    <svg class="icon" role="presentation" aria-hidden="true">
-      <use href="/icons.svg#documentation-icon"></use>
-    </svg>
-    <h2>Documentation</h2>
-    <p>Your questions, answered</p>
-    <ul>
-      <li>
-        <a href="https://vite.dev/" target="_blank" rel="noreferrer">
-          <img class="logo" src={viteLogo} alt="" />
-          Explore Vite
-        </a>
-      </li>
-      <li>
-        <a href="https://svelte.dev/" target="_blank" rel="noreferrer">
-          <img class="button-icon" src={svelteLogo} alt="" />
-          Learn more
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div id="social">
-    <svg class="icon" role="presentation" aria-hidden="true">
-      <use href="/icons.svg#social-icon"></use>
-    </svg>
-    <h2>Connect with us</h2>
-    <p>Join the Vite community</p>
-    <ul>
-      <li>
-        <a href="https://github.com/vitejs/vite" target="_blank" rel="noreferrer">
-          <svg class="button-icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#github-icon"></use>
-          </svg>
-          GitHub
-        </a>
-      </li>
-      <li>
-        <a href="https://chat.vite.dev/" target="_blank" rel="noreferrer">
-          <svg class="button-icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#discord-icon"></use>
-          </svg>
-          Discord
-        </a>
-      </li>
-      <li>
-        <a href="https://x.com/vite_js" target="_blank" rel="noreferrer">
-          <svg class="button-icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#x-icon"></use>
-          </svg>
-          X.com
-        </a>
-      </li>
-      <li>
-        <a href="https://bsky.app/profile/vite.dev" target="_blank" rel="noreferrer">
-          <svg class="button-icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#bluesky-icon"></use>
-          </svg>
-          Bluesky
-        </a>
-      </li>
-    </ul>
-  </div>
-</section>
+:global(*, *::before, *::after) {
+  box-sizing: border-box;
+}
 
-<div class="ticks"></div>
-<section id="spacer"></section>
+main {
+  width: 100vw;
+  height: 100dvh; /* falls back fine; dvh accounts for mobile browser chrome */
+  display: flex;
+  overflow: hidden; /* let inner pieces own their own scrolling instead */
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+h1 {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  flex-shrink: 0;
+}
+
+.canvas-area {
+  flex: 1;        /* fill all remaining height under the h1 */
+  min-height: 0;  /* required so a flex child can scroll instead of overflowing */
+  width: 100%;
+  overflow: hidden;
+}
+</style>
