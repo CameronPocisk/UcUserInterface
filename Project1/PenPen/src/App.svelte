@@ -1,7 +1,10 @@
 <script>
   // Steup stuff from the component file i made
   import ColorPicker from './lib/ColorPicker.svelte';
+  import LedDisplay from './lib/LedDisplay.svelte';
+  import LineOnGraphPaper from './lib/LineOnGraphPaper.svelte';
   import ScrollingGraphPaper from './lib/ScrollingGraphPaper.svelte'
+  import SelectorDial from './lib/SelectorDial.svelte';
 
   let chosenColor = '#ffffff';
   function handleSelect(event) {
@@ -10,9 +13,10 @@
   }
 
   // As far as I can tell, this should rep the whole website script functionality as one app. I am going to make that class here
-  class PenPen{
-    
+  class Pen{
+
   }
+  const pen = new Pen();
 
 </script>
 
@@ -20,7 +24,16 @@
   <div class="app">
     <!-- <h1>PenPen</h1> -->
     <div class="canvas-area">
-      <ScrollingGraphPaper/>
+      <!-- Website Background (Combine this with the canvas-area thing? )-->
+      <ScrollingGraphPaper>
+
+        <!-- Shape of our pen object -->
+        <Pen {pen} />
+        
+        <!-- The line that the pen draws on the paper (should this be in pen?) -->
+        <LineOnGraphPaper/>
+        
+      </ScrollingGraphPaper>
     </div>
     <!-- My Div (For setting the pen color remotely) -->
     <!-- <ColorPicker on:select={handleSelect} /> -->

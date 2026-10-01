@@ -1,6 +1,6 @@
 <script>
 </script>
-<div class="SelectorWheel">
+<div class="SelectorDial">
 </div>
 <style>
 </style>
