@@ -22,9 +22,9 @@
             // Should I be able to set the mode and it can be undo redo or like something else macro like idk.
 
             // Drawing Positions
+            this.penTipX = 0 // How to find this??
             this.penTipY = 0 // How to find this??
-            this.penTipY = 0 // How to find this??
-            this.penBackY = 0 // How to find this??
+            this.penBackX = 0 // How to find this??
             this.penBackY = 0 // How to find this??
         }
 
@@ -72,9 +72,19 @@
         }
 
         // Helper Functions
-        setBackAndTipCoordinates(){
+        findBackAndTipCoordinates(){
             console.log("Finding New coords after drag...");
             // How tf do I do this lol
+            const element = document.getElementById("penDiv");
+            if(element == null) return; // Dont wanna crash or smth!
+            const rect = element.getBoundingClientRect();
+
+            this.penTipX = rect.right
+            this.penTipY = rect.bottom + (rect.height/2)
+            this.penBackX = rect.left
+            this.penBackY = rect.bottom + (rect.height/2)
+            console.log(`new TipX: ${this.penTipX}, TipY:${this.penTipY}
+            new BackX: ${this.penBackX}, BackY:${this.penBackY}`)
         }
     };
 </script>
@@ -87,11 +97,12 @@
     import PenTip from './PenTip.svelte';
     import SelectorDialIcons from './SelectorDialIcons.svelte';
     import { getContext } from 'svelte'; // For gettting my instance (every component)
+    import { draggable } from '@neodrag/svelte'; // Drag the pen
 
     const pen = getContext('penContext');
 </script>
 
-<div class="Pen">
+<div class="Pen" id="penDiv" use:draggable={{ onDrag: () => pen.findBackAndTipCoordinates() }}>
     <!-- The pen has the textured back (visual) -->
     <div class="BackOfPen"></div>
     <!-- Next the pen has the selction Dial (Interactable / mode changing) -->
@@ -123,9 +134,6 @@
     transform-origin: top left;
     transform: scale(2.5);
     /* I think I also want to make this draggable */
-    /* user-select: none;
-    cursor: move;
-    position: absolute; */
 }
 .BackOfPen{
     height: 100%;

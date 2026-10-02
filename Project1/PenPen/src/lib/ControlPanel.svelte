@@ -7,22 +7,22 @@
 <!-- Top 3 buttons -->
     <div class="ButtonRow">
         <!-- <"style="border-radius: TL TR BR BL;"/> -->
-        <button id="topButton1" style="border-radius: 7px 0 0 0;" title="Top Macro"
+        <button id="topButton1" style="border-radius: 7px 0 0 7px;" title="Top Macro"
         on:click={() => pen.useTopMacro()}></button>
         <button id="topButton2" title="Top Selector Button"
         on:click={() => pen.incrementControlMode()}></button>
-        <button id="topButton3" style="border-radius: 0 7px 0 0;" title="Top Attribute Button" 
+        <button id="topButton3" style="border-radius: 0 7px 7px 0;" title="Top Attribute Button" 
         on:click={() => pen.incrementControlValue()}></button>
     </div>
 <!-- The screen (black with text?) -->
     <div class="Display"></div>
 <!-- Bottom 3 Buttons -->
     <div class="ButtonRow">
-        <button id="bottomButton1" style="border-radius: 7px 0 0 0;" title="Bottom Macro"
+        <button id="bottomButton1" style="border-radius: 7px 0 0 7px;" title="Bottom Macro"
         on:click={() => pen.useBottomMacro()}></button>
         <button id="bottomButton2" title="Bottom Selector Button"
         on:click={() => pen.decrementControlMode()}></button>
-        <button id="bottomButton3" style="border-radius: 0 7px 0 0;" title="Bottom Attribute Button"
+        <button id="bottomButton3" style="border-radius: 0 7px 7px 0;" title="Bottom Attribute Button"
         on:click={() => pen.decrementControlValue()}></button>
     </div>
 </div>
