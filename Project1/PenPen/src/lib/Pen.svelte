@@ -130,10 +130,10 @@
 .Pen{
     display: flex;
     height: 150px;
-    margin-left: 175px; /* Move it a little right from the screen edge*/
-    transform-origin: top left;
-    transform: scale(2.5);
-    /* I think I also want to make this draggable */
+    top: 40%;
+    left: 10%;
+    position: absolute;
+    /* transform: scale(2.5); */
 }
 .BackOfPen{
     height: 100%;

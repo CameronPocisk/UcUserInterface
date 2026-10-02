@@ -10,8 +10,7 @@
 /* I had no idea how to do this so I made it with chat GPT  */
 
 .PenTip {
-    width: 150px;
-    height: 150px;
+    height: 100%;
 }
 .PenTip img {
     width: 100%;

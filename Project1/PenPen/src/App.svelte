@@ -6,20 +6,18 @@
   import { setContext } from 'svelte'; // For allowing all children to directly use the object
 
 
-  // This is going to be like the whole app.
+  // Singleton instance.
   const pen = new PenClass();
-
   // Share the reference using a unique string key
   setContext('penContext', pen);
+
 </script>
 
 <main>
   <div class="app">
-    <!-- <h1>PenPen</h1> -->
       <!-- Website Background (Combine this with the canvas-area thing? )-->
       <ScrollingGraphPaper/>
         <!-- The pen object -->
-        <div style="height: 750px;"></div>
         <Pen/>
         
         <!-- The line that the pen draws on the paper (should this be in pen?) -->
@@ -36,8 +34,10 @@
 }
 
 main {
-  width: 100vw;
-  height: 100vh;
+  /* width: 100vw;
+  height: 100vh; */
+  width: 100%;
+  height: 100%;
   display: flex;
   overflow: hidden;
 }
@@ -47,8 +47,6 @@ main {
   flex-direction: column;
   width: 100%;
   height: 100%; /* Shrink this if I want a header */
-  flex: 1;        /* fill all remaining height under the h1 */
-  min-height: 0;  /* required so a flex child can scroll instead of overflowing */
   overflow: hidden;
 }
 
