@@ -11,17 +11,21 @@
   // Share the reference using a unique string key
   setContext('penContext', pen);
 
+  // Need this to make sure all the canvas stuff works
+  let lineOnGraphPaper;
+
 </script>
 
 <main>
   <div class="app">
       <!-- Website Background (Combine this with the canvas-area thing? )-->
       <ScrollingGraphPaper/>
-        <!-- The pen object -->
-        <Pen/>
-        
-        <!-- The line that the pen draws on the paper (should this be in pen?) -->
-        <LineOnGraphPaper/>
+
+      <!-- The pen object -->
+      <Pen/>
+      
+      <!-- The line that the pen draws on the paper (should this be in pen?) -->
+      <LineOnGraphPaper/>
   </div>
 </main>
 

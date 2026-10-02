@@ -1,13 +1,14 @@
 <script context="module"> // Have to make this a module script so I can export it
     import chroma from 'chroma-js'; // This will be used for the color (RGB / HSL)
-    import { THEME_COLORS } from './Constants.js';
+    import { THEME_COLORS } from './Constants.js'
+    import { CanvasFunctions } from './CanvasFunctions.js';
 
     export class PenClass{
         // Define our member variables
         constructor(){
             // Basic Drawing Information
             this.color = chroma("#F44A02"); // Start with no color (or maybe orange idk)
-            this.brushSize = 1; // Brush Diameter in Pixels (?)
+            this.brushSize = 10; // Brush Diameter in Pixels (?)
             this.backMode = "eraser"; // "eraser", "highlighter", "eyedropper"
             this.controlMode = "brushSize"; // "brushSize", "colorHsl", "colorRgb", "opacity(?)", "brushShape(?), "setMacros(?)"
             this.statusLedColor = chroma(0, 0, 0, 0); // Starts off ig
@@ -79,12 +80,29 @@
             if(element == null) return; // Dont wanna crash or smth!
             const rect = element.getBoundingClientRect();
 
-            this.penTipX = rect.right
-            this.penTipY = rect.bottom + (rect.height/2)
+            this.penTipX = rect.right + this.brushSize/4;
+            this.penTipY = rect.bottom - (rect.height/2)
             this.penBackX = rect.left
-            this.penBackY = rect.bottom + (rect.height/2)
+            this.penBackY = rect.bottom - (rect.height/2)
             console.log(`new TipX: ${this.penTipX}, TipY:${this.penTipY}
             new BackX: ${this.penBackX}, BackY:${this.penBackY}`)
+
+            this.drawTip();
+            this.drawBack();
+        }
+
+        drawTip(){
+            // drawPoint = (x, y, size, color)
+            CanvasFunctions.drawPoint(this.penTipX, this.penTipY, this.brushSize, "#FF0000");
+            // CanvasFunctions.drawPoint(this.penTipX, this.penTipY, this.brushSize, this.color.hex());
+        }
+        drawBack(){
+            // drawPoint = (x, y, size, color)
+            CanvasFunctions.erase(this.penBackX, this.penBackY);
+        }
+        clearDrawings(){
+            // drawPoint = (x, y, size, color)
+            CanvasFunctions.clear();
         }
     };
 </script>
@@ -98,6 +116,9 @@
     import SelectorDialIcons from './SelectorDialIcons.svelte';
     import { getContext } from 'svelte'; // For gettting my instance (every component)
     import { draggable } from '@neodrag/svelte'; // Drag the pen
+    import drawPoint from "./LineOnGraphPaper.svelte"
+    import erase from "./LineOnGraphPaper.svelte"
+    import clear from "./LineOnGraphPaper.svelte"
 
     const pen = getContext('penContext');
 </script>
