@@ -3,9 +3,14 @@
   import LineOnGraphPaper from './lib/LineOnGraphPaper.svelte';
   import ScrollingGraphPaper from './lib/ScrollingGraphPaper.svelte'
   import Pen, {PenClass} from './lib/Pen.svelte'; 
+  import { setContext } from 'svelte'; // For allowing all children to directly use the object
 
+
+  // This is going to be like the whole app.
   const pen = new PenClass();
 
+  // Share the reference using a unique string key
+  setContext('penContext', pen);
 </script>
 
 <main>
@@ -19,11 +24,6 @@
         
         <!-- The line that the pen draws on the paper (should this be in pen?) -->
         <LineOnGraphPaper/>
-
-      <!-- </ScrollingGraphPaper> -->
-
-    <!-- My Div (For setting the pen color remotely) -->
-    <!-- <ColorPicker on:select={handleSelect} /> -->
   </div>
 </main>
 

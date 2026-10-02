@@ -15,7 +15,7 @@
     overflow: hidden;
     position: fixed;
     inset: 0;
-    z-index: -1;
+    z-index: -2; /* I have this as -2 so I can potentially put the canvas at -1 (between) */
 }
 
 .ScrollingGraphPaper img {
