@@ -1,6 +1,6 @@
 <script context="module"> // Have to make this a module script so I can export it
     import chroma from 'chroma-js'; // This will be used for the color (RGB / HSL)
-    import { THEME_COLORS } from './Constants.js'
+    import { THEME_COLORS, CONTROL_MODES, MACROS } from './Constants.js'
     import { CanvasFunctions } from './CanvasFunctions.js';
 
     export class PenClass{
@@ -10,14 +10,12 @@
             this.color = chroma(THEME_COLORS.chronOrange); // Start with no color (or maybe orange idk)
             this.brushSize = 10; // Brush Diameter in Pixels (?)
             this.backMode = "highlighter"; // "eraser", "highlighter", "eyedropper"
-            this.controlMode = "brushSize"; // "brushSize", "colorHsl", "colorRgb", "opacity(?)", "brushShape(?), "setMacros(?)"
+            this.controlMode = CONTROL_MODES.brushSize; // "brushSize", "colorHsl", "colorRgb", "opacity(?)", "brushShape(?), "setMacros(?)"
             this.statusLedColor = chroma(0, 0, 0, 0); // Starts off ig
 
             // Control Panel Information
-            this.controlModeText = this.backMode; // Should I Just make this the same as control mode?
-            this.controlModePreview = 0; // null?
-            this.topMacro = "undo";
-            this.bottomMacro = "redo";
+            this.topMacro = MACROS.delete;
+            this.bottomMacro = MACROS.playback;
 
             // What should be on the left third of the display segment? Should it be an undo and redo thing
             // Should I be able to set the mode and it can be undo redo or like something else macro like idk.
@@ -51,31 +49,153 @@
         /** * @param {string} macro */ // idk what this is but it was the quick fix
         useMacro(macro){
             console.log(`using macro: ${macro}`)
-            macro = macro.toLocaleLowerCase();
             switch (macro) {
-            case "undo":
+            case MACROS.delete:
+                this.clearDrawings();
                 break;
-            case "redo":
-            break;
+            case MACROS.playback:
+                this.changeScreenPlayback();
+                break;
+            case MACROS.redo:
+                console.log("Redoing line")
+                break;
+            case MACROS.undo:
+                console.log("Undoing line")
+                break;
             default:
                 console.warn("macro defaulted")
             }
         }
+        /** * @param {any} isTopMacro */
+        changeMacro(isTopMacro){
+            let switchVal = isTopMacro ? this.topMacro : this.bottomMacro;
+            let newMacro="";
+            switch (switchVal) {
+            case MACROS.delete:
+                newMacro = MACROS.playback;
+                break;
+            case MACROS.playback:
+                newMacro = MACROS.redo;
+                break;
+            case MACROS.redo:
+                    newMacro = MACROS.undo;
+                break;
+            case MACROS.undo:
+                newMacro = MACROS.delete;
+                break;
+            default:
+                console.warn("macro defaulted")
+            }
+            isTopMacro ? this.topMacro = newMacro : this.bottomMacro = newMacro;
+
+        }
 
         incrementControlMode(){
-            console.log(`incrementControlMode button`);
+            switch (this.controlMode) {
+            case CONTROL_MODES.changeMacros:
+                this.controlMode = CONTROL_MODES.brushSize;
+                break;
+            case CONTROL_MODES.brushSize:
+                this.controlMode = CONTROL_MODES.colorHue;
+                break;
+            case CONTROL_MODES.colorHue:
+                this.controlMode = CONTROL_MODES.colorSaturation;
+                break;
+            case CONTROL_MODES.colorSaturation:
+                this.controlMode = CONTROL_MODES.colorLevel;
+                break;
+            case CONTROL_MODES.colorLevel:
+                this.controlMode = CONTROL_MODES.changeMacros;
+                break;
+            default:
+                console.warn("Icrement control mode deafulted.")
+                this.controlMode = CONTROL_MODES.changeMacros;
+            }
+            // Reflect the new mode on the control panel
         }
-        decrementControlMode(){
-            console.log(`decrementControlMode button`);
+        decrementControlMode() {
+            switch (this.controlMode) {
+            case CONTROL_MODES.changeMacros:
+                this.controlMode = CONTROL_MODES.colorLevel;
+                break;
+            case CONTROL_MODES.colorLevel:
+                this.controlMode = CONTROL_MODES.colorSaturation;
+                break;
+            case CONTROL_MODES.colorSaturation:
+                this.controlMode = CONTROL_MODES.colorHue;
+                break;
+            case CONTROL_MODES.colorHue:
+                this.controlMode = CONTROL_MODES.brushSize;
+                break;
+            case CONTROL_MODES.brushSize:
+                this.controlMode = CONTROL_MODES.changeMacros;
+                break;
+            default:
+                console.warn("Decremenet control mode deafulted.")
+                this.controlMode = CONTROL_MODES.changeMacros;
+            }
+            // Reflect the new mode on the control panel
         }
+
         incrementControlValue(){
-            console.log(`incrementControlValue button`);
+            switch (this.controlMode) {
+            case CONTROL_MODES.changeMacros:
+                this.changeMacro(true); // Increment the top macro
+                break;
+            case CONTROL_MODES.brushSize:
+                this.brushSize += 1;
+                break;
+            case CONTROL_MODES.colorHue:
+                const currentHue = this.color.get('hsl.h');
+                const newHue = (currentHue + 30) % 360;
+                this.color = this.color.set('hsl.h', newHue);
+                break;
+            case CONTROL_MODES.colorSaturation:
+                const currentSat = this.color.get('hsl.s');
+                const newSat = Math.min(1, currentSat + 0.2);
+                this.color = this.color.set('hsl.s', newSat);
+                break;
+            case CONTROL_MODES.colorLevel:
+            const currentLevel = this.color.get('hsl.l');
+            const newLevel = Math.min(1, currentLevel + 0.15);
+                this.color = this.color.set('hsl.l', newLevel);
+                break;
+            default:
+                this.controlMode = CONTROL_MODES.changeMacros;
+            }
         }
         decrementControlValue(){
-            console.log(`decrementControlValue button`);
+            switch (this.controlMode) {
+            case CONTROL_MODES.changeMacros:
+                this.changeMacro(false); // Increment the bottom macro
+                break;
+            case CONTROL_MODES.brushSize:
+                this.brushSize = Math.max(1, this.brushSize - 1);
+                break;
+            case CONTROL_MODES.colorHue:
+                const currentHue = this.color.get('hsl.h');
+                // Using (val + 360) % 360 handles negative numbers safely in JS
+                const newHue = (360 + currentHue - 30) % 360;
+                this.color = this.color.set('hsl.h', newHue);
+                break;
+            case CONTROL_MODES.colorSaturation:
+                const currentSat = this.color.get('hsl.s');
+                // Math.max(0, ...) ensures it stops exactly at 0 and doesn't go negative
+                const newSat = Math.max(0, currentSat - 0.2);
+                this.color = this.color.set('hsl.s', newSat);
+                break;
+            case CONTROL_MODES.colorLevel:
+                const currentLevel = this.color.get('hsl.l');
+                // Subtracted 0.15 and capped at 0 so it doesn't break
+                const newLevel = Math.max(0, currentLevel - 0.15);
+                this.color = this.color.set('hsl.l', newLevel);
+                break;
+            default:
+                this.controlMode = "changeMacros";
+            }
         }
         // and Dial up/down
-        incrementDial(){ // Should I call this backDial or smth? 
+        incrementDial(){
             console.log(`incrementDial button`);
             switch (this.backMode) {
             case "eyedropper":
@@ -88,7 +208,7 @@
                 this.backMode = "eyedropper";
                 break;
             default:
-                console.warn("macro defaulted")
+                console.warn("back Dial defaulted")
             }
         }
 
@@ -111,7 +231,7 @@
             // console.log(`${this.penTipX}, ${this.penTipY}`)
             CanvasFunctions.drawPoint(this.penTipX, this.penTipY, this.brushSize, this.color.hex());
         }
-        
+
         drawBack(){
             switch (this.backMode) {
             case "eraser":
@@ -131,12 +251,16 @@
                 console.log(foundColor);
                 break;
             default:
-                console.warn("macro defaulted")
+                console.warn("Dial mode defaulted")
             }
             
         }
+
         clearDrawings(){
             CanvasFunctions.clear();
+        }
+        changeScreenPlayback(){
+            console.log("Figure out how to pause the gif / change the drawing");    
         }
 
         // Need to constantly draw on the canvas. 
@@ -201,7 +325,7 @@
 <style>
 .Pen{
     display: flex;
-    height: 150px;
+    height: 100px;
     top: 40%;
     left: 10%;
     position: absolute;

@@ -56,8 +56,8 @@
         tempCanvas.height = canvas.height;
         const tempCtx = tempCanvas.getContext('2d');
         // Just gonna have this move up a bit at a time
-        // (27 is the amount of time that makes the 1 tick scroll match)
-        setInterval(() => moveCanvasUp(tempCanvas, tempCtx), 27);
+        // (36 is the amount of time that makes the 1 tick scroll match)
+        setInterval(() => moveCanvasUp(tempCanvas, tempCtx), 36);
     }
 
     // Called whenever the pen reports a new position (see note below on wiring this up)
@@ -76,8 +76,8 @@
         ctx.fill();
     }
 
-    const backSize = 150;
-    const backWidth = 10;
+    const backSize = 100;
+    const backWidth = 15;
     /**
    * @param {number} x
    * @param {number} y

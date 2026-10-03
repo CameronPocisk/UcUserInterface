@@ -8,3 +8,44 @@ export const THEME_COLORS = {
   chronOrange: "#F44A02",
   highlighterYellow: "#FBF71950"
 };
+
+import redoIcon from './assets/redoIcon.svg';
+import undoIcon from './assets/undoIcon.svg';
+import upCaret from './assets/upCaret.svg';
+import downCaret from './assets/downCaret.svg';
+import leftCaret from './assets/leftCaret.svg';
+import rightCaret from './assets/rightCaret.svg';
+import eraser from './assets/eraser.svg';
+import highlighter from './assets/highlighter.svg';
+import eyedropper from './assets/eyedropper.svg';
+import deleteIcon from './assets/deleteIcon.svg';
+import playbackIcon from './assets/playbackIcon.svg';
+
+export const ICONS = {
+  redo: redoIcon,
+  undo: undoIcon,
+  upCaret: upCaret,
+  downCaret: downCaret,
+  leftCaret: leftCaret,
+  rightCaret: rightCaret,
+  eraser: eraser,
+  highlighter: highlighter,
+  eyedropper: eyedropper,
+  delete: deleteIcon,
+  playback: playbackIcon
+};
+
+export const CONTROL_MODES = {
+  changeMacros: "Edit Macros",
+  brushSize: "Brush Size",
+  colorHue: "Hue",
+  colorSaturation: "Saturation",
+  colorLevel: "Level",
+}
+
+export const MACROS = {
+  delete: "delete",
+  playback: "playback",
+  redo: "redo",
+  undo: "undo",
+}

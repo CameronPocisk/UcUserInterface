@@ -1,14 +1,12 @@
 <script>
-    import eraser from './assets/eraser.svg';
-    import highlighter from './assets/highlighter.svg';
-    import eyedropper from './assets/eyedropper.svg';
+    import { ICONS } from './Constants.js';
 </script>
 <div class="SelectorDialIcons">
     <div class="ButtonColumn">
         <div></div>
-        <img src={eyedropper}/>
-        <img src={eraser}/>
-        <img src={highlighter}/>
+        <img src={ICONS.eyedropper}/>
+        <img src={ICONS.eraser}/>
+        <img src={ICONS.highlighter}/>
         <div></div>
     </div>
 </div>
