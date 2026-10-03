@@ -27,6 +27,9 @@
             this.penTipY = 0 // How to find this??
             this.penBackX = 0 // How to find this??
             this.penBackY = 0 // How to find this??
+
+            // Setup the timer to continously draw
+            this.startDrawingTimer();
         }
 
         signOfLife(){
@@ -87,8 +90,8 @@
             console.log(`new TipX: ${this.penTipX}, TipY:${this.penTipY}
             new BackX: ${this.penBackX}, BackY:${this.penBackY}`)
 
-            this.drawTip();
-            this.drawBack();
+            // this.drawTip();
+            // this.drawBack();
         }
 
         drawTip(){
@@ -103,6 +106,11 @@
         clearDrawings(){
             // drawPoint = (x, y, size, color)
             CanvasFunctions.clear();
+        }
+
+        // Need to constantly draw on the canvas. 
+        startDrawingTimer(){
+            setInterval(() => {this.drawTip(); this.drawBack();}, 1);
         }
     };
 </script>

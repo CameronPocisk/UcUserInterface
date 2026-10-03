@@ -5,29 +5,61 @@
     
     const pen = getContext('penContext');
 
-    /** * @type {HTMLCanvasElement} */
-    let canvasEl;
+    /** * @type {HTMLCanvasement} */
+    let canvas;
     /** * @type {CanvasRenderingContext2D | null} */
     let ctx;
 
     onMount(() => {
-        ctx = canvasEl.getContext('2d');
+        ctx = canvas.getContext('2d');
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
+        if(!ctx) return;
         ctx.fillStyle = 'red';
         ctx.fillRect(50, 50, 200, 200)
 
-        console.log(` width: ${document.querySelector('canvas').width}
-        height ${document.querySelector('canvas').height}`);
+        moveCanvasUpOnTimer();
         return () => window.removeEventListener('resize', resizeCanvas);
     });
 
     function resizeCanvas() {
         // Match the canvas's real pixel grid to its displayed size
-        canvasEl.width = canvasEl.clientWidth;
-        canvasEl.height = canvasEl.clientHeight;
-        console.log(`canvas heihgt: ${canvasEl.width}`);
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+        console.log(`canvas heihgt: ${canvas.width}`);
+    }
+    
+    const scrollIncrement = 1;
+    /**
+   * @param {CanvasImageSource} tempCanvas
+   * @param {CanvasRenderingContext2D | null} tempCtx
+   */
+    function moveCanvasUp(tempCanvas, tempCtx){
+        if(!ctx || !tempCtx || !tempCanvas) return;
+        console.log('moving canvas')
+        
+        tempCtx.clearRect(0, 0, canvas.width, canvas.height);
+        tempCtx.drawImage(canvas, 0, 0);
+
+        // 4. Clear the main canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // 5. Draw the wrapped positions
+        ctx.drawImage(tempCanvas, 0, -scrollIncrement);
+        ctx.drawImage(tempCanvas, 0, canvas.height - scrollIncrement);
+    }
+
+    
+    function moveCanvasUpOnTimer(){
+        // Making a temp canvas here so I can copy contextes (idk but it gets a canvas as ap )
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = canvas.width;
+        tempCanvas.height = canvas.height;
+        const tempCtx = tempCanvas.getContext('2d');
+        // Just gonna have this move up a bit at a time
+        // (27 is the amount of time that makes the 1 tick scroll match)
+        setInterval(() => moveCanvasUp(tempCanvas, tempCtx), 27);
     }
 
     // Called whenever the pen reports a new position (see note below on wiring this up)
@@ -39,7 +71,7 @@
    */
     CanvasFunctions.drawPoint = (x, y, size, color) => {
         if (!ctx) return;
-        console.log('Drawing at', x, y, 'size', size, 'color', color, '— canvas is', canvasEl.width, 'x', canvasEl.height);
+        console.log('Drawing at', x, y, 'size', size, 'color', color, '— canvas is', canvas.width, 'x', canvas.height);
         console.log("In the real draw point")
         ctx.fillStyle = color;
         ctx.beginPath();
@@ -65,7 +97,7 @@
 
     CanvasFunctions.clear = () => {
         if (!ctx) return;
-        ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
 
@@ -74,7 +106,7 @@
  We are going to draw circles according to the pens info and attributes
  We are going to erase based on the cords and clear rect -->
 <div class="LineOnGraphPaper">
-    <canvas bind:this={canvasEl}></canvas>
+    <canvas bind:this={canvas}></canvas>
 </div>
 
 <style>
