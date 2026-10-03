@@ -9,7 +9,7 @@
             // Basic Drawing Information
             this.color = chroma("#F44A02"); // Start with no color (or maybe orange idk)
             this.brushSize = 10; // Brush Diameter in Pixels (?)
-            this.backMode = "eraser"; // "eraser", "highlighter", "eyedropper"
+            this.backMode = "highlighter"; // "eraser", "highlighter", "eyedropper"
             this.controlMode = "brushSize"; // "brushSize", "colorHsl", "colorRgb", "opacity(?)", "brushShape(?), "setMacros(?)"
             this.statusLedColor = chroma(0, 0, 0, 0); // Starts off ig
 
@@ -71,13 +71,26 @@
             console.log(`decrementControlValue button`);
         }
         // and Dial up/down
-        incrementDial(){
+        incrementDial(){ // Should I call this backDial or smth? 
             console.log(`incrementDial button`);
+            switch (this.backMode) {
+            case "eyedropper":
+                this.backMode = "eraser";
+                break;
+            case "eraser":
+                this.backMode = "highlighter";
+                break;
+            case "highlighter":
+                this.backMode = "eyedropper";
+                break;
+            default:
+                console.warn("macro defaulted")
+            }
         }
 
         // Helper Functions
         findBackAndTipCoordinates(){
-            console.log("Finding New coords after drag...");
+            // console.log("Finding New coords after drag...");
             // How tf do I do this lol
             const element = document.getElementById("penDiv");
             if(element == null) return; // Dont wanna crash or smth!
@@ -87,8 +100,8 @@
             this.penTipY = rect.bottom - (rect.height/2)
             this.penBackX = rect.left
             this.penBackY = rect.bottom - (rect.height/2)
-            console.log(`new TipX: ${this.penTipX}, TipY:${this.penTipY}
-            new BackX: ${this.penBackX}, BackY:${this.penBackY}`)
+            // console.log(`new TipX: ${this.penTipX}, TipY:${this.penTipY}
+            // new BackX: ${this.penBackX}, BackY:${this.penBackY}`)
 
             // this.drawTip();
             // this.drawBack();
@@ -96,12 +109,35 @@
 
         drawTip(){
             // drawPoint = (x, y, size, color)
-            CanvasFunctions.drawPoint(this.penTipX, this.penTipY, this.brushSize, "#FF0000");
+            CanvasFunctions.drawPoint(this.penTipX, this.penTipY, this.brushSize, this.color.toString());
             // CanvasFunctions.drawPoint(this.penTipX, this.penTipY, this.brushSize, this.color.hex());
         }
         drawBack(){
+            switch (this.backMode) {
+            case "eraser":
+                CanvasFunctions.erase(this.penBackX, this.penBackY);
+                break;
+            case "highlighter":
+                CanvasFunctions.highlight(this.penBackX, this.penBackY);
+            break;
+            case "eyedropper":
+                let foundColor = chroma(CanvasFunctions.getEyedropperColor(this.penBackX, this.penBackY));
+                console.log(foundColor.toString())
+
+                if (foundColor.alpha() === 0){
+                    console.log("no color found")
+                    break;
+                }
+
+                this.color = foundColor;
+                this.statusLedColor = foundColor;
+                console.log(foundColor);
+                break;
+            default:
+                console.warn("macro defaulted")
+            }
+            
             // drawPoint = (x, y, size, color)
-            CanvasFunctions.erase(this.penBackX, this.penBackY);
         }
         clearDrawings(){
             // drawPoint = (x, y, size, color)

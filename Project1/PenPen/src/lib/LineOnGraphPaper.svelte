@@ -29,7 +29,7 @@
         canvas.height = canvas.clientHeight;
         console.log(`canvas heihgt: ${canvas.width}`);
     }
-    
+
     const scrollIncrement = 1;
     /**
    * @param {CanvasImageSource} tempCanvas
@@ -37,22 +37,22 @@
    */
     function moveCanvasUp(tempCanvas, tempCtx){
         if(!ctx || !tempCtx || !tempCanvas) return;
-        console.log('moving canvas')
         
+        // Copy the main drawing over to a temp one (for copying)
         tempCtx.clearRect(0, 0, canvas.width, canvas.height);
         tempCtx.drawImage(canvas, 0, 0);
 
-        // 4. Clear the main canvas
+        // Clear the main canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // 5. Draw the wrapped positions
+        // Draw the main canvas scrolling up and the copy from below wrapping up
         ctx.drawImage(tempCanvas, 0, -scrollIncrement);
         ctx.drawImage(tempCanvas, 0, canvas.height - scrollIncrement);
     }
 
     
     function moveCanvasUpOnTimer(){
-        // Making a temp canvas here so I can copy contextes (idk but it gets a canvas as ap )
+        // Making a temp canvas here so I can copy the main canvas
         const tempCanvas = document.createElement('canvas');
         tempCanvas.width = canvas.width;
         tempCanvas.height = canvas.height;
@@ -71,29 +71,45 @@
    */
     CanvasFunctions.drawPoint = (x, y, size, color) => {
         if (!ctx) return;
-        console.log('Drawing at', x, y, 'size', size, 'color', color, '— canvas is', canvas.width, 'x', canvas.height);
-        console.log("In the real draw point")
+        // console.log('Drawing at', x, y, 'size', size, 'color', color, '— canvas is', canvas.width, 'x', canvas.height);
         ctx.fillStyle = color;
         ctx.beginPath();
         ctx.arc(x, y, size/2, 0, Math.PI * 2); // Draws a circle at the point
         ctx.fill();
     }
 
+    const backSize = 150;
+    const backWidth = 10;
     /**
    * @param {number} x
    * @param {number} y
    */
     CanvasFunctions.erase = (x, y) => {
         if (!ctx) return;
-        const deleteSize = 150;
-        const deleteWidth = 5;
         ctx.clearRect(
-            x - deleteWidth / 2,
-            y - deleteSize / 2,
-            deleteWidth,
-            deleteSize
+            x - backWidth / 2,
+            y - backSize / 2,
+            backWidth,
+            backSize
         );
     }
+
+    CanvasFunctions.highlight = (x, y) => {
+        if (!ctx) return;
+        ctx.fillStyle = "#FBF71970"
+        ctx.fillRect(
+            x - backWidth / 2,
+            y - backSize / 2,
+            backWidth,
+            backSize
+        );
+    }
+
+    CanvasFunctions.getEyedropperColor = (x, y) => {
+        if (!ctx) return;
+        const pixelData = ctx.getImageData(x, y, 1, 1).data;
+        return `rgba(${pixelData[0]}, ${pixelData[1]}, ${pixelData[2]}, ${pixelData[3] / 255})`;
+    };
 
     CanvasFunctions.clear = () => {
         if (!ctx) return;
