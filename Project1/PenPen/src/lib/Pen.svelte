@@ -7,7 +7,7 @@
         // Define our member variables
         constructor(){
             // Basic Drawing Information
-            this.color = chroma("#F44A02"); // Start with no color (or maybe orange idk)
+            this.color = chroma(THEME_COLORS.chronOrange); // Start with no color (or maybe orange idk)
             this.brushSize = 10; // Brush Diameter in Pixels (?)
             this.backMode = "highlighter"; // "eraser", "highlighter", "eyedropper"
             this.controlMode = "brushSize"; // "brushSize", "colorHsl", "colorRgb", "opacity(?)", "brushShape(?), "setMacros(?)"
@@ -29,7 +29,11 @@
             this.penBackY = 0 // How to find this??
 
             // Setup the timer to continously draw
-            this.startDrawingTimer();
+            // this.findBackAndTipCoordinates();
+            setTimeout(() => {
+                this.findBackAndTipCoordinates();
+                this.startDrawingTimer();
+            }, 100);
         }
 
         signOfLife(){
@@ -90,8 +94,6 @@
 
         // Helper Functions
         findBackAndTipCoordinates(){
-            // console.log("Finding New coords after drag...");
-            // How tf do I do this lol
             const element = document.getElementById("penDiv");
             if(element == null) return; // Dont wanna crash or smth!
             const rect = element.getBoundingClientRect();
@@ -102,16 +104,14 @@
             this.penBackY = rect.bottom - (rect.height/2)
             // console.log(`new TipX: ${this.penTipX}, TipY:${this.penTipY}
             // new BackX: ${this.penBackX}, BackY:${this.penBackY}`)
-
-            // this.drawTip();
-            // this.drawBack();
         }
 
         drawTip(){
             // drawPoint = (x, y, size, color)
-            CanvasFunctions.drawPoint(this.penTipX, this.penTipY, this.brushSize, this.color.toString());
-            // CanvasFunctions.drawPoint(this.penTipX, this.penTipY, this.brushSize, this.color.hex());
+            // console.log(`${this.penTipX}, ${this.penTipY}`)
+            CanvasFunctions.drawPoint(this.penTipX, this.penTipY, this.brushSize, this.color.hex());
         }
+        
         drawBack(){
             switch (this.backMode) {
             case "eraser":
@@ -124,10 +124,7 @@
                 let foundColor = chroma(CanvasFunctions.getEyedropperColor(this.penBackX, this.penBackY));
                 console.log(foundColor.toString())
 
-                if (foundColor.alpha() === 0){
-                    console.log("no color found")
-                    break;
-                }
+                if (foundColor.alpha() === 0) break;
 
                 this.color = foundColor;
                 this.statusLedColor = foundColor;
@@ -137,16 +134,26 @@
                 console.warn("macro defaulted")
             }
             
-            // drawPoint = (x, y, size, color)
         }
         clearDrawings(){
-            // drawPoint = (x, y, size, color)
             CanvasFunctions.clear();
         }
 
         // Need to constantly draw on the canvas. 
-        startDrawingTimer(){
-            setInterval(() => {this.drawTip(); this.drawBack();}, 1);
+        // startDrawingTimer(){
+        //     // setInterval(() => {this.drawTip(); this.drawBack();}, 1);
+        //     setInterval(() => {this.drawTip(); this.drawBack();}, 1);
+        //     requestAnimationFrame
+        // }
+        // Turned this into the animation loop thing bc it is better than timer
+        startDrawingTimer() {
+            const loop = () => {
+                this.drawTip(); 
+                this.drawBack();
+                this.drawingFrameId = requestAnimationFrame(loop);
+            };
+
+            this.drawingFrameId = requestAnimationFrame(loop);
         }
     };
 </script>

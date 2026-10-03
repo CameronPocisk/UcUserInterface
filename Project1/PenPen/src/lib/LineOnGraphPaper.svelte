@@ -2,6 +2,7 @@
 <script>
     import { onMount, getContext } from 'svelte';
     import { CanvasFunctions } from './CanvasFunctions.js';
+    import { THEME_COLORS } from './Constants.js'
     
     const pen = getContext('penContext');
 
@@ -16,8 +17,6 @@
         window.addEventListener('resize', resizeCanvas);
 
         if(!ctx) return;
-        ctx.fillStyle = 'red';
-        ctx.fillRect(50, 50, 200, 200)
 
         moveCanvasUpOnTimer();
         return () => window.removeEventListener('resize', resizeCanvas);
@@ -27,7 +26,6 @@
         // Match the canvas's real pixel grid to its displayed size
         canvas.width = canvas.clientWidth;
         canvas.height = canvas.clientHeight;
-        console.log(`canvas heihgt: ${canvas.width}`);
     }
 
     const scrollIncrement = 1;
@@ -96,7 +94,7 @@
 
     CanvasFunctions.highlight = (x, y) => {
         if (!ctx) return;
-        ctx.fillStyle = "#FBF71970"
+        ctx.fillStyle = THEME_COLORS.highlighterYellow;
         ctx.fillRect(
             x - backWidth / 2,
             y - backSize / 2,

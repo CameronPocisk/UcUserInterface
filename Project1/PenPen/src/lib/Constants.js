@@ -5,5 +5,6 @@ export const THEME_COLORS = {
   chronLightGreyAlt: "#9B9E9F",
   PrettyMuchBlack: "#100C08",
   PrettyMuchWhite: "#FAF9F6",
-  chronOrange: "#F44A02"
+  chronOrange: "#F44A02",
+  highlighterYellow: "#FBF71950"
 };
