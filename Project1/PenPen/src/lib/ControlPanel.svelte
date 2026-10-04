@@ -108,6 +108,7 @@
     </div>
 </div>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'); /* For the display font*/
 .ControlPanel{
     height: 100%;
     width: 222px;
@@ -171,7 +172,7 @@
     align-items: center;
     justify-content: center;
     font-family: 'Press Start 2P', monospace;
-    font-size: 100%;
+    font-size: 10px;
     color: #FAF9F6;
 }
 .DisplayBrush{

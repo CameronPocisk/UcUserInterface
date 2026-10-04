@@ -34,6 +34,7 @@
    * @param {CanvasRenderingContext2D | null} tempCtx
    */
     function moveCanvasUp(tempCanvas, tempCtx){
+        if(pen.scenePaused) return;
         if(!ctx || !tempCtx || !tempCanvas) return;
         
         // Copy the main drawing over to a temp one (for copying)

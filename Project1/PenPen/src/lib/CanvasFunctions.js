@@ -3,5 +3,6 @@ export const CanvasFunctions = {
   clear: () => {},
   erase:() => {},
   highlight:() => {},
-  getEyedropperColor: () => {}
+  getEyedropperColor: () => {},
+  toggleGifMovement: () => {}
 };

@@ -9,9 +9,10 @@
             // Basic Drawing Information
             this.color = chroma(THEME_COLORS.chronOrange); // Start with no color (or maybe orange idk)
             this.brushSize = 10; // Brush Diameter in Pixels (?)
-            this.backMode = "highlighter"; // "eraser", "highlighter", "eyedropper"
+            this.backMode = "eraser"; // "eraser", "highlighter", "eyedropper"
             this.controlMode = CONTROL_MODES.brushSize; // "brushSize", "colorHsl", "colorRgb", "opacity(?)", "brushShape(?), "setMacros(?)"
             this.statusLedColor = chroma(0, 0, 0, 0); // Starts off ig
+            this.scenePaused = false; // used for playback thing
 
             // Control Panel Information
             this.topMacro = MACROS.delete;
@@ -242,7 +243,6 @@
             break;
             case "eyedropper":
                 let foundColor = chroma(CanvasFunctions.getEyedropperColor(this.penBackX, this.penBackY));
-                console.log(foundColor.toString())
 
                 if (foundColor.alpha() === 0) break;
 
@@ -260,6 +260,8 @@
             CanvasFunctions.clear();
         }
         changeScreenPlayback(){
+            this.scenePaused = !this.scenePaused;
+            CanvasFunctions.toggleGifMovement();
             console.log("Figure out how to pause the gif / change the drawing");    
         }
 
