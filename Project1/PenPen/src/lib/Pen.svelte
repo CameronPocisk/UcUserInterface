@@ -13,6 +13,7 @@
             this.controlMode = CONTROL_MODES.brushSize; // "brushSize", "colorHsl", "colorRgb", "opacity(?)", "brushShape(?), "setMacros(?)"
             this.statusLedColor = chroma(0, 0, 0, 0); // Starts off ig
             this.scenePaused = false; // used for playback thing
+            this.drawingOff = false; // For stop drawing macro
 
             // Control Panel Information
             this.topMacro = MACROS.delete;
@@ -228,6 +229,7 @@
         }
 
         drawTip(){
+            if(this.drawingOff) return;
             // drawPoint = (x, y, size, color)
             // console.log(`${this.penTipX}, ${this.penTipY}`)
             CanvasFunctions.drawPoint(this.penTipX, this.penTipY, this.brushSize, this.color.hex());
@@ -259,19 +261,17 @@
         clearDrawings(){
             CanvasFunctions.clear();
         }
+
         changeScreenPlayback(){
             this.scenePaused = !this.scenePaused;
             CanvasFunctions.toggleGifMovement();
             console.log("Figure out how to pause the gif / change the drawing");    
         }
 
-        // Need to constantly draw on the canvas. 
-        // startDrawingTimer(){
-        //     // setInterval(() => {this.drawTip(); this.drawBack();}, 1);
-        //     setInterval(() => {this.drawTip(); this.drawBack();}, 1);
-        //     requestAnimationFrame
-        // }
-        // Turned this into the animation loop thing bc it is better than timer
+        toggleDrawing(){
+            this.drawingFrameId = !this.drawingOff;
+        }
+
         startDrawingTimer() {
             const loop = () => {
                 this.drawTip(); 

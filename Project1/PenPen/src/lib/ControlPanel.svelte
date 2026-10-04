@@ -74,7 +74,7 @@
     <div class="ButtonRow">
         <!-- <"style="border-radius: TL TR BR BL;"/> -->
         <button id="topButton1" class="button Small" style="border-radius: 7px 0 0 7px;" title="Top Macro"
-        on:click={() => {pen.useTopMacro(); refreshDisplay();}}><img src={ICONS.upCaret}/></button>
+        on:click={() => {pen.useTopMacro(); refreshDisplay();}}><img src={ICONS.pillShape}/></button>
         <button id="topButton2" class="button Large" title="Top Selector Button"
         on:click={() => {pen.incrementControlMode(); refreshDisplay(); }}><img src={ICONS.upCaret}/></button>
         <button id="topButton3" class="button Small" style="border-radius: 0 7px 7px 0;" title="Top Attribute Button" 
@@ -100,7 +100,7 @@
 <!-- Bottom 3 Buttons -->
     <div class="ButtonRow">
         <button id="bottomButton1" class="button Small" style="border-radius: 7px 0 0 7px;" title="Bottom Macro"
-        on:click={() => {pen.useBottomMacro(); refreshDisplay(); }}><img src={ICONS.downCaret}/></button>
+        on:click={() => {pen.useBottomMacro(); refreshDisplay(); }}><img src={ICONS.pillShape}/></button>
         <button id="bottomButton2" class="button Large" title="Bottom Selector Button"
         on:click={() => {pen.decrementControlMode(); refreshDisplay(); }}><img src={ICONS.downCaret}/></button>
         <button id="bottomButton3" class="button Small" style="border-radius: 0 7px 7px 0;" title="Bottom Attribute Button"

@@ -20,6 +20,8 @@ import highlighter from './assets/highlighter.svg';
 import eyedropper from './assets/eyedropper.svg';
 import deleteIcon from './assets/deleteIcon.svg';
 import playbackIcon from './assets/playbackIcon.svg';
+import pillShape from './assets/pillShape.svg';
+import pencilSlash from './assets/pencilSlash.svg';
 
 export const ICONS = {
   redo: redoIcon,
@@ -32,7 +34,9 @@ export const ICONS = {
   highlighter: highlighter,
   eyedropper: eyedropper,
   delete: deleteIcon,
-  playback: playbackIcon
+  playback: playbackIcon,
+  pillShape: pillShape,
+  pencilSlash: pencilSlash
 };
 
 export const CONTROL_MODES = {
