@@ -1,7 +1,7 @@
 <script>
     import { getContext } from 'svelte'; // For gettting my instance (every component)
     const pen = getContext('penContext');
-    import { ICONS, MACROS } from './Constants.js';
+    import { ICONS, MACROS, ICONS_ARR, MACRO_ICONS } from './Constants.js';
     import { onMount } from 'svelte';
     
     let displayText = pen.controlMode;
@@ -9,34 +9,10 @@
     var bottomMacroIcon = ICONS.playback;
     function refreshDisplay() {
         displayText = pen.controlMode; // reassignment triggers re-render
-        switch(pen.topMacro){
-            case MACROS.undo:
-                topMacroIcon = ICONS.undo
-                break;
-            case MACROS.redo:
-                topMacroIcon = ICONS.redo
-                break;
-            case MACROS.playback:
-                topMacroIcon = ICONS.playback
-                break;
-            case MACROS.delete:
-                topMacroIcon = ICONS.delete
-                break;
-        }
-        switch(pen.bottomMacro){
-            case MACROS.undo:
-                bottomMacroIcon = ICONS.undo
-                break;
-            case MACROS.redo:
-                bottomMacroIcon = ICONS.redo
-                break;
-            case MACROS.playback:
-                bottomMacroIcon = ICONS.playback
-                break;
-            case MACROS.delete:
-                bottomMacroIcon = ICONS.delete
-                break;
-        }
+
+        // Reassign the macros
+        topMacroIcon = MACRO_ICONS[pen.topMacroIndex];
+        bottomMacroIcon = MACRO_ICONS[pen.bottomMacroIndex];
         // Make sure changes are applied to the preview
         drawPreviewCanvas();
     }

@@ -38,6 +38,7 @@ export const ICONS = {
   pillShape: pillShape,
   pencilSlash: pencilSlash
 };
+export const ICONS_ARR = [ ICONS.redo, ICONS.undo, ICONS.upCaret, ICONS.downCaret, ICONS.leftCaret, ICONS.rightCaret, ICONS.eraser, ICONS.highlighter, ICONS.eyedropper, ICONS.delete, ICONS.playback, ICONS.pillShape, ICONS.pencilSlash];
 
 export const CONTROL_MODES = {
   changeMacros: "Edit Macros",
@@ -46,10 +47,14 @@ export const CONTROL_MODES = {
   colorSaturation: "Saturation",
   colorLevel: "Level",
 }
+export const CONTROL_MODES_ARR = [CONTROL_MODES.changeMacros, CONTROL_MODES.brushSize, CONTROL_MODES.colorHue, CONTROL_MODES.colorSaturation, CONTROL_MODES.colorLevel];
 
 export const MACROS = {
   delete: "delete",
   playback: "playback",
   redo: "redo",
   undo: "undo",
+  toggleDrawing: "toggle Drawing",
 }
+export const MACROS_ARR =  [ MACROS.delete, MACROS.playback, MACROS.redo, MACROS.undo, MACROS.toggleDrawing ];
+export const MACRO_ICONS = [ ICONS.delete,  ICONS.playback,  ICONS.redo,  ICONS.undo,  ICONS.pencilSlash];

@@ -19,6 +19,13 @@
             this.topMacro = MACROS.delete;
             this.bottomMacro = MACROS.playback;
 
+            // Switching to use indexes on the constants. 
+            this.controlModeArr = [CONTROL_MODES.changeMacros, CONTROL_MODES.brushSize, CONTROL_MODES.colorHue, CONTROL_MODES.colorSaturation, CONTROL_MODES.colorLevel];
+            this.macroArr = [ MACROS.delete, MACROS.playback, MACROS.redo, MACROS.undo, MACROS.toggleDrawing];
+            this.controlModeIndex = 0
+            this.topMacroIndex = 0;
+            this.bottomMacroIndex = this.controlModeArr.length -1;
+
             // What should be on the left third of the display segment? Should it be an undo and redo thing
             // Should I be able to set the mode and it can be undo redo or like something else macro like idk.
 
@@ -42,14 +49,15 @@
 
         // Button Functions
         useTopMacro(){
-            this.useMacro(this.topMacro);
+            this.useMacro(this.topMacroIndex);
         }
         useBottomMacro(){
-            this.useMacro(this.bottomMacro);
+            this.useMacro(this.bottomMacroIndex);
         }
 
         /** * @param {string} macro */ // idk what this is but it was the quick fix
         useMacro(macro){
+            macro = this.macroArr[macro];
             console.log(`using macro: ${macro}`)
             switch (macro) {
             case MACROS.delete:
@@ -64,12 +72,22 @@
             case MACROS.undo:
                 console.log("Undoing line")
                 break;
+            case MACROS.toggleDrawing:
+                this.toggleDrawing();
+                break;
             default:
                 console.warn("macro defaulted")
             }
         }
         /** * @param {any} isTopMacro */
         changeMacro(isTopMacro){
+
+            if (isTopMacro)
+                this.topMacroIndex = (this.topMacroIndex + 1) % this.macroArr.length;
+            else
+                this.bottomMacroIndex = (this.bottomMacroIndex + 1) % this.macroArr.length;
+            return;
+
             let switchVal = isTopMacro ? this.topMacro : this.bottomMacro;
             let newMacro="";
             switch (switchVal) {
@@ -229,7 +247,9 @@
         }
 
         drawTip(){
-            if(this.drawingOff) return;
+            if(this.drawingOff){
+                return;
+            }
             // drawPoint = (x, y, size, color)
             // console.log(`${this.penTipX}, ${this.penTipY}`)
             CanvasFunctions.drawPoint(this.penTipX, this.penTipY, this.brushSize, this.color.hex());
@@ -269,7 +289,8 @@
         }
 
         toggleDrawing(){
-            this.drawingFrameId = !this.drawingOff;
+            this.drawingOff = !this.drawingOff;
+            console.log(`drawing is off: ${this.drawingOff}`)
         }
 
         startDrawingTimer() {
