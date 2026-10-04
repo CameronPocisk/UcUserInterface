@@ -1,6 +1,6 @@
 <script context="module"> // Have to make this a module script so I can export it
     import chroma from 'chroma-js'; // This will be used for the color (RGB / HSL)
-    import { THEME_COLORS, CONTROL_MODES, MACROS } from './Constants.js'
+    import { THEME_COLORS, CONTROL_MODES, CONTROL_MODES_ARR, MACROS } from './Constants.js'
     import { CanvasFunctions } from './CanvasFunctions.js';
 
     export class PenClass{
@@ -87,74 +87,15 @@
             else
                 this.bottomMacroIndex = (this.bottomMacroIndex + 1) % this.macroArr.length;
             return;
-
-            let switchVal = isTopMacro ? this.topMacro : this.bottomMacro;
-            let newMacro="";
-            switch (switchVal) {
-            case MACROS.delete:
-                newMacro = MACROS.playback;
-                break;
-            case MACROS.playback:
-                newMacro = MACROS.redo;
-                break;
-            case MACROS.redo:
-                    newMacro = MACROS.undo;
-                break;
-            case MACROS.undo:
-                newMacro = MACROS.delete;
-                break;
-            default:
-                console.warn("macro defaulted")
-            }
-            isTopMacro ? this.topMacro = newMacro : this.bottomMacro = newMacro;
-
         }
 
         incrementControlMode(){
-            switch (this.controlMode) {
-            case CONTROL_MODES.changeMacros:
-                this.controlMode = CONTROL_MODES.brushSize;
-                break;
-            case CONTROL_MODES.brushSize:
-                this.controlMode = CONTROL_MODES.colorHue;
-                break;
-            case CONTROL_MODES.colorHue:
-                this.controlMode = CONTROL_MODES.colorSaturation;
-                break;
-            case CONTROL_MODES.colorSaturation:
-                this.controlMode = CONTROL_MODES.colorLevel;
-                break;
-            case CONTROL_MODES.colorLevel:
-                this.controlMode = CONTROL_MODES.changeMacros;
-                break;
-            default:
-                console.warn("Icrement control mode deafulted.")
-                this.controlMode = CONTROL_MODES.changeMacros;
-            }
-            // Reflect the new mode on the control panel
+            this.controlModeIndex = (this.controlModeIndex + 1) % CONTROL_MODES_ARR.length;
+            this.controlMode = CONTROL_MODES_ARR[this.controlModeIndex];
         }
         decrementControlMode() {
-            switch (this.controlMode) {
-            case CONTROL_MODES.changeMacros:
-                this.controlMode = CONTROL_MODES.colorLevel;
-                break;
-            case CONTROL_MODES.colorLevel:
-                this.controlMode = CONTROL_MODES.colorSaturation;
-                break;
-            case CONTROL_MODES.colorSaturation:
-                this.controlMode = CONTROL_MODES.colorHue;
-                break;
-            case CONTROL_MODES.colorHue:
-                this.controlMode = CONTROL_MODES.brushSize;
-                break;
-            case CONTROL_MODES.brushSize:
-                this.controlMode = CONTROL_MODES.changeMacros;
-                break;
-            default:
-                console.warn("Decremenet control mode deafulted.")
-                this.controlMode = CONTROL_MODES.changeMacros;
-            }
-            // Reflect the new mode on the control panel
+            this.controlModeIndex = (this.controlModeIndex - 1 + CONTROL_MODES_ARR.length) % CONTROL_MODES_ARR.length;
+            this.controlMode = CONTROL_MODES_ARR[this.controlModeIndex];
         }
 
         incrementControlValue(){
@@ -247,10 +188,7 @@
         }
 
         drawTip(){
-            if(this.drawingOff){
-                return;
-            }
-            // drawPoint = (x, y, size, color)
+            if(this.drawingOff){ return; }
             // console.log(`${this.penTipX}, ${this.penTipY}`)
             CanvasFunctions.drawPoint(this.penTipX, this.penTipY, this.brushSize, this.color.hex());
         }
