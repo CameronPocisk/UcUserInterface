@@ -2,10 +2,11 @@
     import { getContext } from 'svelte'; // For gettting my instance (every component)
     const pen = getContext('penContext');
     import { ICONS, MACROS } from './Constants.js';
+    import { onMount } from 'svelte';
     
     let displayText = pen.controlMode;
-    var topMacroIcon = ICONS.undo;
-    var bottomMacroIcon = ICONS.redo;
+    var topMacroIcon = ICONS.delete;
+    var bottomMacroIcon = ICONS.playback;
     function refreshDisplay() {
         displayText = pen.controlMode; // reassignment triggers re-render
         switch(pen.topMacro){
@@ -36,6 +37,35 @@
                 bottomMacroIcon = ICONS.delete
                 break;
         }
+        // Make sure changes are applied to the preview
+        drawPreviewCanvas();
+    }
+
+    // Get the canvas for the Pen preview
+    // Do I need to make this on mount?
+    var canvas;
+    var ctx;
+    onMount(() => {
+        canvas = document.getElementById('previewCanvas');
+        if (!canvas) return; // defensive guard, same pattern as before
+        ctx = canvas.getContext('2d');
+        canvas.width = Math.min(canvas.clientWidth, canvas.height);
+        canvas.height = Math.min(canvas.clientWidth, canvas.height);
+        refreshDisplay();
+        drawPreviewCanvas();
+    });
+
+    function drawPreviewCanvas(){
+        // First clear it
+        if(canvas == null || ctx == null) return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let x = 0 + canvas.width/2;
+        let y = 0 + canvas.height/2;
+        ctx.fillStyle = pen.color.hex();
+
+        ctx.beginPath();
+        ctx.arc(x, y, pen.brushSize/2, 0, Math.PI * 2); // Draws a circle at the point
+        ctx.fill();
     }
 
 </script>
@@ -63,10 +93,9 @@
          <div class="DisplayText"> {displayText} </div>
 
          <!-- This should show the current 'brush' -->
-         <div class="DisplayBrush">
+         <canvas id="previewCanvas" class="DisplayBrush">
             <!-- Can I make this like a mini mini canvas? -->
-             test
-         </div>
+         </canvas>
     </div>
 <!-- Bottom 3 Buttons -->
     <div class="ButtonRow">
@@ -148,8 +177,5 @@
 .DisplayBrush{
     width: 25%;
     height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 </style>
