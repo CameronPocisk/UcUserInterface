@@ -22,6 +22,10 @@ import deleteIcon from './assets/deleteIcon.svg';
 import playbackIcon from './assets/playbackIcon.svg';
 import pillShape from './assets/pillShape.svg';
 import pencilSlash from './assets/pencilSlash.svg';
+import metallicTexture from './assets/metalTexture1.avif'
+import screenTexture from './assets/ScreenTexture1.webp'
+export const metallicTextureExp = metallicTexture;
+export const screenTextureExp = screenTexture;
 
 export const ICONS = {
   redo: redoIcon,

@@ -1,6 +1,6 @@
 <script context="module"> // Have to make this a module script so I can export it
     import chroma from 'chroma-js'; // This will be used for the color (RGB / HSL)
-    import { THEME_COLORS, CONTROL_MODES, CONTROL_MODES_ARR, MACROS } from './Constants.js'
+    import { THEME_COLORS, CONTROL_MODES, CONTROL_MODES_ARR, MACROS, metallicTextureExp} from './Constants.js'
     import { CanvasFunctions } from './CanvasFunctions.js';
 
     export class PenClass{
@@ -208,7 +208,6 @@
 
                 this.color = foundColor;
                 this.statusLedColor = foundColor;
-                console.log(foundColor);
                 break;
             default:
                 console.warn("Dial mode defaulted")
@@ -292,12 +291,32 @@
     position: absolute;
     /* transform: scale(2.5); */
 }
-.BackOfPen{
+/* .BackOfPen{
     height: 100%;
     width: 80px;
     background-color: #F44A02;
     border-radius: 10px;
 }
+*/
+.BackOfPen {
+    height: 100%;
+    width: 80px;
+    background-color: #F44A02;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden; /* keeps the pseudo-element clipped to the rounded corners */
+}
+/* Code to overlay the background texture */
+/* .BackOfPen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('./assets/metalTexture1.avif');
+    background-size: cover;
+    mix-blend-mode: multiply;
+    opacity: 0.2;
+    pointer-events: none;
+} */
 .penBody{
     display: flex; 
     align-items: stretch;
